@@ -5,8 +5,11 @@ import java.util.Random;
 
 public class Model extends Observable {
 
+    private int finalDamage;
+
 
     public Model() {
+        this.finalDamage = 0;
     }
 
     public boolean calculateAttack(int modifier, int profBonus, int enemyAC) {
@@ -19,7 +22,7 @@ public class Model extends Observable {
         return (roll+modifier+profBonus) >= enemyAC;
     }
 
-    public int calculateDamage(int sides, int count, int modifier, int profBonus, int enemyAC) {
+    public void calculateDamage(int sides, int count, int modifier, int profBonus, int enemyAC) {
 
         // true if hit succeeds false otherwise
         if (this.calculateAttack(modifier, profBonus, enemyAC)) {
@@ -38,10 +41,14 @@ public class Model extends Observable {
                 damage = rand.nextInt(sides - 1) + 1;
             }
 
-            return (damage + modifier);
+            // final outputted damage
+            this.finalDamage = (damage + modifier);
+            this.setChanged();
+            this.notifyObservers();
         }
-        // miss hit
-        return 0;
     }
 
+    public int getFinalDamage() {
+        return finalDamage;
+    }
 }
