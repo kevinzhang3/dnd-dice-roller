@@ -22,7 +22,11 @@ public class Model extends Observable {
         return (roll+modifier+profBonus) >= enemyAC;
     }
 
-    public void calculateDamage(int sides, int count, int modifier, int profBonus, int enemyAC) {
+    public void calculateDamage(int sides, int count, int modifier, int profBonus, int enemyAC) throws InvalidDiceException {
+
+        if (sides == 0 || count == 0) {
+            throw new InvalidDiceException("You must input a valid dice!");
+        }
 
         // true if hit succeeds false otherwise
         if (this.calculateAttack(modifier, profBonus, enemyAC)) {

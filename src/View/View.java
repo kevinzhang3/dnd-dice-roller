@@ -123,6 +123,13 @@ public class View extends JFrame implements Observer {
     }
 
     /**
+     * getter for damageResult
+     */
+    public JLabel getDamageResult() {
+        return damageResult;
+    }
+
+    /**
      * called whenever observable object is changed and view is notified
      * @param o     the observable object.
      * @param arg   an argument passed to the {@code notifyObservers}

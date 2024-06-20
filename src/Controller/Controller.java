@@ -5,6 +5,7 @@ import View.View;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import Model.InvalidDiceException;
 
 public class Controller {
 
@@ -23,7 +24,11 @@ public class Controller {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            model.calculateDamage(view.getDiceSides(), view.getDiceCount(), view.getAbilityModifierInput(), view.getProfBonusInput(), view.getEnemyAcInput());
+            try {
+                model.calculateDamage(view.getDiceSides(), view.getDiceCount(), view.getAbilityModifierInput(), view.getProfBonusInput(), view.getEnemyAcInput());
+            } catch (InvalidDiceException ex) {
+                view.getDamageResult().setText("Invalid dice!");
+            }
         }
     }
     /**
