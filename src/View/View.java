@@ -30,7 +30,6 @@ public class View extends JFrame implements Observer {
      * display outputted damage
      */
     private JLabel damageResult;
-    private int damage = 0;
 
     /**
      * input enemy armor class
@@ -49,7 +48,7 @@ public class View extends JFrame implements Observer {
         abilityModifierInput = new JTextField("Input any modifiers (default 0)");
         profBonusInput = new JTextField("Input any proficiency bonuses (default 0)");
         enemyAcInput = new JTextField("Input enemy armor class");
-        damageResult = new JLabel("Outputted damage is: " + damage);
+        damageResult = new JLabel("");
         startCalc = new JButton("Calculate damage!");
 
         panel.setLayout(new GridLayout(4, 3));
@@ -114,7 +113,7 @@ public class View extends JFrame implements Observer {
     }
 
     public int getProfBonusInput() {
-        String s = enemyAcInput.getText();
+        String s = profBonusInput.getText();
         try {
             return Integer.parseInt(s);
         } catch (NumberFormatException e) {
@@ -139,11 +138,13 @@ public class View extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof Model) {
             Model m = (Model) o;
-            damage = m.getFinalDamage();
-            if (damage == 0) {
-                damageResult.setText("Miss!");
-            }
-            else damageResult.setText("Outputted damage is: " + damage);
+            int damage = m.getFinalDamage();
+            int attack = m.getFinalAttackRoll();
+            if (damage == -2) {
+                damageResult.setText("Miss (You rolled " + attack + ")");
+            } else if (damage == -1) {
+                damageResult.setText("Critical miss...");
+            } else damageResult.setText("You did " + damage + " damage!");
         }
 
     }

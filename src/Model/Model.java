@@ -7,42 +7,52 @@ public class Model extends Observable {
 
     private int finalDamage;
 
+    private int finalAttackRoll;
+
 
     public Model() {
         this.finalDamage = 0;
     }
 
-    public boolean calculateAttack(int modifier, int profBonus, int enemyAC) {
-        Random rand = new Random();
-
-        // roll 1d20
-        int roll = rand.nextInt(21) - 1;
-
-        // return dice roll + bonuses vs. enemy armor class
-        return (roll+modifier+profBonus) >= enemyAC;
-    }
 
     public void calculateDamage(int sides, int count, int modifier, int profBonus, int enemyAC) throws InvalidDiceException {
+
+        Random rand = new Random();
 
         if (sides == 0 || count == 0) {
             throw new InvalidDiceException("You must input a valid dice!");
         }
 
+        int natAttack = rand.nextInt(20) + 1;
+        int attackRoll = natAttack + profBonus + modifier;
+
+        // critical miss
+        if (natAttack == 1) {
+            this.finalDamage = -1;
+            this.setChanged();
+            this.notifyObservers();
+        }
+
+        // miss
+        else if (attackRoll < enemyAC) {
+            this.finalDamage = -2;
+            this.finalAttackRoll = attackRoll;
+            this.setChanged();
+            this.notifyObservers();
+        }
+
         // true if hit succeeds false otherwise
-        if (this.calculateAttack(modifier, profBonus, enemyAC)) {
+        else {
             // store damage
             int damage = 0;
-
-            // for randomizing rolls
-            Random rand = new Random();
 
             // generate attack roll
             if (count > 1) {
                 for (int i = 0; i < count; i++) {
-                    damage += rand.nextInt(sides - 1) + 1;
+                    damage += rand.nextInt(sides) + 1;
                 }
             } else {
-                damage = rand.nextInt(sides - 1) + 1;
+                damage = rand.nextInt(sides) + 1;
             }
 
             // final outputted damage
@@ -54,5 +64,9 @@ public class Model extends Observable {
 
     public int getFinalDamage() {
         return finalDamage;
+    }
+
+    public int getFinalAttackRoll() {
+        return finalAttackRoll;
     }
 }
