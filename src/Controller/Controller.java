@@ -38,7 +38,6 @@ public class Controller {
         this.view = v;
         this.model = m;
 
-        calcButtonListener b = new calcButtonListener();
-        this.view.assignListener(b);
+        this.view.assignListener(new calcButtonListener());
     }
 }

@@ -3,6 +3,8 @@ package Model;
 import java.util.Observable;
 import java.util.Random;
 
+// USE STRATEGY DESIGN PATTERN TO SWITCH BETWEEN WEAPONS INSTEAD OF PROMPTING FOR DICE SIDES AND DICE COUNT
+
 public class Model extends Observable {
 
     private int finalDamage;

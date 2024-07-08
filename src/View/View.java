@@ -44,7 +44,7 @@ public class View extends JFrame implements Observer {
     public View() {
         JPanel panel = new JPanel();
         diceCount = new JTextField("Input number of dice");
-        diceSides = new JTextField("Input number of sides per dice");
+        diceSides = new JTextField("Input number of sides per die");
         abilityModifierInput = new JTextField("Input any modifiers (default 0)");
         profBonusInput = new JTextField("Input any proficiency bonuses (default 0)");
         enemyAcInput = new JTextField("Input enemy armor class");
